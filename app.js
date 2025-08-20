@@ -105,7 +105,7 @@ Aturan:
         const length = input.value.length;
 
         // Update character counter
-        this.elements.charCounter.textContent = `${length}/2000`;
+        this.elements.charCounter.textContent = `${length}/30000`;
 
         // Auto-resize textarea
         this.autoResize();
@@ -130,7 +130,7 @@ Aturan:
 
         // Check online status
         if (!this.isOnline) {
-            this.showErrorToast('No internet connection. Please check your network and try again.');
+            this.showErrorToast('gak ads internet, mau ngirim pesan gimana 😑.');
             return;
         }
 
@@ -154,7 +154,7 @@ Aturan:
 
         } catch (error) {
             console.error('Error sending message:', error);
-            this.showErrorToast('Failed to get AI response. Please try again.');
+            this.showErrorToast('coba lagi, pesan tadi gak ke kirim jir.');
 
             // Remove user message if API call failed
             if (this.messages.length > 0 && this.messages[this.messages.length - 1].type === 'user') {
@@ -182,7 +182,7 @@ Aturan:
 
         contents.push({
             role: 'model',
-            parts: [{ text: 'Understood. I will respond in a friendly, casual, and clear manner as requested.' }]
+            parts: [{ text: 'mau chat apa sih sayang, aku ladeni kok.' }]
         });
 
         // Add conversation history
@@ -278,8 +278,8 @@ Aturan:
                 <div class="welcome-message">
                     <div class="welcome-content">
                         <i data-feather="message-circle"></i>
-                        <h3>AI Chat without sensor</h3>
-                        <p>Start a conversation with our AI assistant, provided by Daniel🖕🏻😜🖕🏻</p>
+                        <h3>massager</h3>
+                        <p>provided by Daniel</p>
                     </div>
                 </div>
             `;
