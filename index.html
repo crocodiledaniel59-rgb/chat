@@ -15,54 +15,53 @@
         }
 
         :root {
-            /* Light Theme Colors */
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-tertiary: #e9ecef;
-            --text-primary: #212529;
-            --text-secondary: #6c757d;
-            --text-accent: #495057;
-            --border-color: #dee2e6;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --shadow-hover: rgba(0, 0, 0, 0.15);
+    /* Pure Mocha Theme Colors */
+    --bg-primary: #3e2723;       /* deep mocha */
+    --bg-secondary: #4e342e;     /* roasted coffee brown */
+    --bg-tertiary: #5d4037;      /* warm mocha mid */
+    --text-primary: #f5efe9;     /* soft cream */
+    --text-secondary: #d7c4bb;   /* light cappuccino */
+    --text-accent: #b89a8f;      /* accent beige */
+    --border-color: #6b4b43;     /* warm border */
+    --shadow: rgba(0, 0, 0, 0.45);
+    --shadow-hover: rgba(0, 0, 0, 0.6);
+    
+    /* Chat Colors */
+    --user-bubble: #a1887f;      /* latte */
+    --user-text: #2b1b18;        /* dark mocha text */
+    --ai-bubble: #efe4db;        /* creamy cappuccino */
+    --ai-text: #3e2723;          /* mocha text */
+    --ai-border: #c7a89b;        /* soft chocolate border */
+    
+    /* Status Colors */
+    --online-color: #9ccc65;     /* muted fresh green */
+    --offline-color: #c62828;    /* deep red */
+    --warning-color: #ffb74d;    /* amber */
+    
+    /* Animation */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
 
-            /* Chat Colors */
-            --user-bubble: #007bff;
-            --user-text: #ffffff;
-            --ai-bubble: #f8f9fa;
-            --ai-text: #212529;
-            --ai-border: #e9ecef;
-
-            /* Status Colors */
-            --online-color: #28a745;
-            --offline-color: #dc3545;
-            --warning-color: #ffc107;
-
-            /* Animation */
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        [data-theme="dark"] {
-            /* Dark Theme Colors */
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --bg-tertiary: #3a3a3a;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --text-accent: #d0d0d0;
-            --border-color: #404040;
-            --shadow: rgba(0, 0, 0, 0.3);
-            --shadow-hover: rgba(0, 0, 0, 0.4);
-
-            /* Chat Colors for Dark Theme */
-            --user-bubble: #0066cc;
-            --user-text: #ffffff;
-            --ai-bubble: #2d2d2d;
-            --ai-text: #ffffff;
-            --ai-border: #404040;
-        }
-
+/* Slightly different dark theme tuning */
+[data-theme="dark"] {
+    --bg-primary: #2b1b18;
+    --bg-secondary: #3e2723;
+    --bg-tertiary: #52392f;
+    --text-primary: #efeae3;
+    --text-secondary: #d7c4bb;
+    --text-accent: #b89a8f;
+    --border-color: #4e342e;
+    --shadow: rgba(0, 0, 0, 0.6);
+    --shadow-hover: rgba(0, 0, 0, 0.7);
+    
+    --user-bubble: #8d6e63;
+    --user-text: #fff8ee;
+    --ai-bubble: #3e2723;
+    --ai-text: #efeae3;
+    --ai-border: #563a33;
+}
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: var(--bg-primary);
