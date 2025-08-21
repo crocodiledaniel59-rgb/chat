@@ -1641,7 +1641,7 @@ document.addEventListener('DOMContentLoaded', () => {
   #resetChat {
     position: fixed;
     bottom: 95px;
-    right: 20px;
+    right: 17px;
     width: 50px;
     height: 50px;
     border-radius: 25%;
@@ -1667,7 +1667,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <script>
   document.getElementById("resetChat").addEventListener("click", () => {
-    if (confirm("Yakin mau reset chat? Semua riwayat bakal hilang.")) {
+    if (confirm("InI adalah fitur baru, dimana pengguna dapat menghapus semua memory chat(reset).")) {
       localStorage.clear();
       let chatBox = document.getElementById("chatBox");
       if (chatBox) chatBox.innerHTML = "";
