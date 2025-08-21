@@ -6,7 +6,7 @@ class ChatApp {
         // Configuration
         this.API_KEY = 'AIzaSyBSZUCrHWZcopKuyp9bZ6vIc-XqiTFYyBQ'; // API key for GitHub Pages
         this.API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
-        this.MAX_MESSAGES = 10000;
+        this.MAX_MESSAGES = 30000;
         this.STORAGE_KEY = 'ai_chat_messages';
         this.THEME_KEY = 'ai_chat_theme';
 
@@ -214,8 +214,8 @@ Aturan:
                 }
             ],
             generationConfig: {
-                temperature: 0.7,
-                topK: 40,
+                temperature: 0.9,
+                topK: 80,
                 topP: 0.95,
                 maxOutputTokens: 2048,
             },
