@@ -1635,19 +1635,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </script>
 
 <!-- Floating Reset Button -->
-<button id="resetChat" title="Reset Chat">🧑🏻‍💻</button>
+<button id="resetChat" title="Menu">🧑🏻‍💻</button>
+
+<!-- Floating Menu -->
+<div id="floatingMenu" class="hidden">
+  <ul>
+    <li onclick="resetChat()">🔄 Reset Chat</li>
+    <li onclick="changeColor()">🎨 Ganti Warna</li>
+    <li onclick="deleteChat()">🗑 Hapus Chat</li>
+  </ul>
+</div>
 
 <style>
   @keyframes gradientShift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   #resetChat {
@@ -1666,28 +1669,80 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    z-index: 999;
+    z-index: 1000;
   }
-
   #resetChat:hover {
     transform: scale(1.1);
     box-shadow: 0 6px 14px rgba(0,0,0,0.4);
   }
+  #resetChat:active { transform: scale(0.9); }
 
-  #resetChat:active {
-    transform: scale(0.9);
+  /* Floating Menu Style */
+  #floatingMenu {
+    position: fixed;
+    bottom: 160px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-radius: 20px;
+    padding: 12px 0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    width: 180px;
+    text-align: left;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999;
+  }
+  #floatingMenu.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  #floatingMenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  #floatingMenu li {
+    padding: 10px 15px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    transition: background 0.2s ease;
+  }
+  #floatingMenu li:hover {
+    background: rgba(255, 255, 255, 0.15);
   }
 </style>
 
 <script>
-  document.getElementById("resetChat").addEventListener("click", () => {
-    if (confirm("InI adalah fitur baru, dimana pengguna dapat menghapus semua memory chat(reset).")) {
+  const btn = document.getElementById("resetChat");
+  const menu = document.getElementById("floatingMenu");
+
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("show");
+  });
+
+  function resetChat() {
+    if (confirm("Yakin mau reset chat?")) {
       localStorage.clear();
       let chatBox = document.getElementById("chatBox");
       if (chatBox) chatBox.innerHTML = "";
       location.reload();
     }
-  });
+  }
+
+  function changeColor() {
+    alert("Fitur ganti warna coming soon ✨");
+  }
+
+  function deleteChat() {
+    let chatBox = document.getElementById("chatBox");
+    if (chatBox) chatBox.innerHTML = "";
+  }
 </script>
 
 </body>
