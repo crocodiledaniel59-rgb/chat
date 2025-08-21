@@ -1644,7 +1644,6 @@ document.addEventListener('DOMContentLoaded', () => {
     <li onclick="saveScreenshot()">💾 Save/Share Screenshot</li>
     <li onclick="openQuickSettings()">⚡️ Quick Settings</li>
     <li onclick="feedback()">💬 Feedback</li>
-    <li onclick="toggleSound()">🔊 Toggle Sound</li>
   </ul>
 </div>
 
@@ -1652,8 +1651,6 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="quickSettings" class="modal hidden">
   <div class="modal-content">
     <h3>⚡️ Quick Settings</h3>
-    <label>🔆 Brightness</label>
-    <input type="range" min="50" max="150" value="100" id="brightnessSlider"><br>
     <label>🔊 Volume</label>
     <input type="range" min="0" max="100" value="50" id="volumeSlider"><br>
     <button class="closeBtn" onclick="closeQuickSettings()">Tutup</button>
@@ -1661,82 +1658,111 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <style>
-  /* Floating button style */
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
   #resetChat {
     position: fixed;
     bottom: 95px;
     right: 17px;
     width: 55px;
     height: 55px;
-    border-radius: 15%;
+    border-radius: 15px;
     border: none;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px);
-    color: #000;
+    background: linear-gradient(135deg, #3e2723, #f5efe9);
+    background-size: 200% 200%;
+    animation: gradientShift 12s ease infinite;
+    color: #fff;
     font-size: 22px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
     z-index: 1000;
   }
+  #resetChat:hover { transform: scale(1.08); }
+  #resetChat:active { transform: scale(0.92); }
 
-  #resetChat:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-  }
-
-  /* Floating menu */
   #floatingMenu {
     position: fixed;
-    bottom: 85px;
+    bottom: 160px;
     right: 20px;
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(20px);
-    border-radius: 15px;
-    padding: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    display: none;
-    z-index: 1000;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(13px) saturate(180%);
+    -webkit-backdrop-filter: blur(13px) saturate(180%);
+    border-radius: 18px;
+    padding: 12px 0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    width: 240px;
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 999;
   }
-
   #floatingMenu.show {
-    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
-
-  #floatingMenu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
+  #floatingMenu ul { list-style: none; margin: 0; padding: 0; }
   #floatingMenu li {
-    margin: 8px 0;
+    padding: 12px 18px;
     cursor: pointer;
-    font-size: 15px;
-    color: #000;
+    color: #fff;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-
   #floatingMenu li:hover {
-    text-decoration: underline;
+    background: rgba(255, 255, 255, 0.2);
   }
 
-  /* Modal basic */
   .modal {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.45);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2000;
+    animation: fadeIn 0.3s ease;
   }
   .modal.hidden { display: none; }
   .modal-content {
-    background: white;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(13px) saturate(180%);
     padding: 20px;
-    border-radius: 15px;
-    min-width: 250px;
+    border-radius: 20px;
+    text-align: center;
+    width: 270px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    animation: popUp 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
   }
+  .modal-content h3 {
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  .modal-content input[type=range] { width: 100%; margin: 8px 0 15px; }
+  .closeBtn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3e2723, #f5efe9);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  @keyframes popUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
 
 <script>
@@ -1744,17 +1770,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const menu = document.getElementById("floatingMenu");
   btn.addEventListener("click", () => menu.classList.toggle("show"));
 
-  // Reset Chat
   function resetChat() {
-    if (confirm("Yakin mau reset chat?")) {
+    if(confirm("Yakin mau reset chat?")) {
       localStorage.clear();
       let chatBox = document.getElementById("chatBox");
-      if (chatBox) chatBox.innerHTML = "";
+      if(chatBox) chatBox.innerHTML = "";
       location.reload();
     }
   }
 
-  // Save Screenshot
   function saveScreenshot() {
     html2canvas(document.body).then(canvas => {
       let link = document.createElement("a");
@@ -1762,44 +1786,21 @@ document.addEventListener('DOMContentLoaded', () => {
       link.href = canvas.toDataURL();
       link.click();
     });
-    playClickSound();
   }
 
-  // Quick Settings
   const quickModal = document.getElementById("quickSettings");
-  function openQuickSettings() { quickModal.classList.remove("hidden"); playClickSound(); }
-  function closeQuickSettings() { quickModal.classList.add("hidden"); playClickSound(); }
-  document.getElementById("brightnessSlider").addEventListener("input", e => {
-    document.body.style.filter = `brightness(${e.target.value}%)`;
+  function openQuickSettings() { quickModal.classList.remove("hidden"); }
+  function closeQuickSettings() { quickModal.classList.add("hidden"); }
+
+  document.getElementById("volumeSlider").addEventListener("input", e => {
+    // bisa lo pakai nanti buat kontrol volume sound
   });
-}
 
-  // Feedback
   function feedback() {
-    window.open("https://confess.ngl.link/daniel82737", "_blank");
-    playClickSound();
-  }
-
-  // 🎵 Sound Effect Toggle
-  let soundEnabled = true;
-  const clickSound = new Audio("https://assets.mixkit.co/sfx/download/mixkit-interface-click-1126.wav");
-
-  function playClickSound() {
-    if (soundEnabled) {
-      clickSound.currentTime = 0;
-      clickSound.play();
-    }
-  }
-
-  function toggleSound() {
-    soundEnabled = !soundEnabled;
-    alert("Sound " + (soundEnabled ? "ON 🔊" : "OFF 🔇"));
+    window.open("https://ngl.link/username", "_blank");
   }
 </script>
 
-<!-- CDN html2canvas -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-</script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
