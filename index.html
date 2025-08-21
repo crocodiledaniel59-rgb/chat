@@ -1642,7 +1642,6 @@ document.addEventListener('DOMContentLoaded', () => {
   <ul>
     <li onclick="resetChat()">🔄 Reset Chat</li>
     <li onclick="changeColor()">🎨 Ganti Warna</li>
-    <li onclick="deleteChat()">🗑 Hapus Chat</li>
     <li onclick="saveScreenshot()">💾 Save/Share Screenshot</li>
     <li onclick="openQuickSettings()">⚡️ Quick Settings</li>
     <li onclick="lockApp()">🔒 Lock App</li>
@@ -1686,7 +1685,7 @@ document.addEventListener('DOMContentLoaded', () => {
     right: 17px;
     width: 55px;
     height: 55px;
-    border-radius: 20px;
+    border-radius: 15px;
     border: none;
     background: linear-gradient(135deg, #3e2723, #f5efe9);
     background-size: 200% 200%;
@@ -1706,9 +1705,9 @@ document.addEventListener('DOMContentLoaded', () => {
     position: fixed;
     bottom: 160px;
     right: 20px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(13px) saturate(180%);
+    -webkit-backdrop-filter: blur(13px) saturate(180%);
     border-radius: 18px;
     padding: 12px 0;
     box-shadow: 0 8px 25px rgba(0,0,0,0.25);
@@ -1750,8 +1749,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   .modal.hidden { display: none; }
   .modal-content {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(13px) saturate(180%);
     padding: 20px;
     border-radius: 20px;
     text-align: center;
@@ -1803,12 +1802,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (chatBox) chatBox.innerHTML = "";
       location.reload();
     }
-  }
-
-  // Hapus Chat
-  function deleteChat() {
-    let chatBox = document.getElementById("chatBox");
-    if (chatBox) chatBox.innerHTML = "";
   }
 
   // Ganti Warna
