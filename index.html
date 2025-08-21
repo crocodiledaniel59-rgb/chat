@@ -1641,15 +1641,10 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="floatingMenu" class="hidden">
   <ul>
     <li onclick="resetChat()">🔄 Reset Chat</li>
-    <li>
-      🎨 Ganti Warna 
-      <input type="color" id="colorPicker" style="margin-left:10px; cursor:pointer;">
-    </li>
     <li onclick="saveScreenshot()">💾 Save/Share Screenshot</li>
     <li onclick="openQuickSettings()">⚡️ Quick Settings</li>
-    <li onclick="lockApp()">🔒 Lock App</li>
     <li onclick="feedback()">💬 Feedback</li>
-    <li onclick="toggleSound()">🔊 Sound on/off</li>
+    <li onclick="toggleSound()">🔊 Toggle Sound</li>
   </ul>
 </div>
 
@@ -1665,17 +1660,83 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 
-<!-- Lock Screen Modal -->
-<div id="lockScreen" class="modal hidden">
-  <div class="modal-content">
-    <h3>🔒 Masukkan PIN</h3>
-    <input type="password" id="pinInput" placeholder="****" maxlength="4">
-    <button class="closeBtn" onclick="unlockApp()">Unlock</button>
-  </div>
-</div>
-
 <style>
-  /* ... (semua CSS lo yang tadi tetap sama) ... */
+  /* Floating button style */
+  #resetChat {
+    position: fixed;
+    bottom: 95px;
+    right: 17px;
+    width: 55px;
+    height: 55px;
+    border-radius: 15%;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    color: #000;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 1000;
+  }
+
+  #resetChat:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+
+  /* Floating menu */
+  #floatingMenu {
+    position: fixed;
+    bottom: 85px;
+    right: 20px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1000;
+  }
+
+  #floatingMenu.show {
+    display: block;
+  }
+
+  #floatingMenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #floatingMenu li {
+    margin: 8px 0;
+    cursor: pointer;
+    font-size: 15px;
+    color: #000;
+  }
+
+  #floatingMenu li:hover {
+    text-decoration: underline;
+  }
+
+  /* Modal basic */
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+  }
+  .modal.hidden { display: none; }
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    min-width: 250px;
+  }
 </style>
 
 <script>
@@ -1693,13 +1754,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Ganti Warna pakai color picker
-  const colorPicker = document.getElementById("colorPicker");
-  colorPicker.addEventListener("input", (e) => {
-    document.body.style.background = e.target.value;
-    playClickSound(); // bunyi kalau ganti warna
-  });
-
   // Save Screenshot
   function saveScreenshot() {
     html2canvas(document.body).then(canvas => {
@@ -1708,7 +1762,7 @@ document.addEventListener('DOMContentLoaded', () => {
       link.href = canvas.toDataURL();
       link.click();
     });
-    playClickSound(); // bunyi pas screenshot
+    playClickSound();
   }
 
   // Quick Settings
@@ -1718,18 +1772,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById("brightnessSlider").addEventListener("input", e => {
     document.body.style.filter = `brightness(${e.target.value}%)`;
   });
-
-  // Lock App
-  const lockModal = document.getElementById("lockScreen");
-  let appPin = "1234";
-  function lockApp() { lockModal.classList.remove("hidden"); playClickSound(); }
-  function unlockApp() {
-    let inputPin = document.getElementById("pinInput").value;
-    if (inputPin === appPin) {
-      lockModal.classList.add("hidden");
-      playClickSound();
-    } else alert("PIN salah 😑");
-  }
+}
 
   // Feedback
   function feedback() {
@@ -1739,7 +1782,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 🎵 Sound Effect Toggle
   let soundEnabled = true;
-  const clickSound = new Audio("click.mp3"); // taro file click.mp3 di folder lo
+  const clickSound = new Audio("https://assets.mixkit.co/sfx/download/mixkit-interface-click-1126.wav");
 
   function playClickSound() {
     if (soundEnabled) {
@@ -1755,7 +1798,8 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <!-- CDN html2canvas -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+</script>
 
 </body>
 </html>
