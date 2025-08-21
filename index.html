@@ -1638,6 +1638,18 @@ document.addEventListener('DOMContentLoaded', () => {
 <button id="resetChat" title="Reset Chat">🧑🏻‍💻</button>
 
 <style>
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
   #resetChat {
     position: fixed;
     bottom: 95px;
@@ -1647,6 +1659,8 @@ document.addEventListener('DOMContentLoaded', () => {
     border-radius: 25%;
     border: none;
     background: linear-gradient(135deg, #3e2723, #f5efe9);
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
     color: white;
     font-size: 19px;
     cursor: pointer;
