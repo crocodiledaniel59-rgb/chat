@@ -1641,7 +1641,10 @@ document.addEventListener('DOMContentLoaded', () => {
 <div id="floatingMenu" class="hidden">
   <ul>
     <li onclick="resetChat()">🔄 Reset Chat</li>
-    <li onclick="changeColor()">🎨 Ganti Warna</li>
+    <li>
+      🎨 Ganti Warna 
+      <input type="color" id="colorPicker" style="margin-left:10px; cursor:pointer;">
+    </li>
     <li onclick="saveScreenshot()">💾 Save/Share Screenshot</li>
     <li onclick="openQuickSettings()">⚡️ Quick Settings</li>
     <li onclick="lockApp()">🔒 Lock App</li>
@@ -1711,7 +1714,7 @@ document.addEventListener('DOMContentLoaded', () => {
     border-radius: 18px;
     padding: 12px 0;
     box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    width: 220px;
+    width: 240px;
     transform: translateY(20px);
     opacity: 0;
     pointer-events: none;
@@ -1731,6 +1734,9 @@ document.addEventListener('DOMContentLoaded', () => {
     font-weight: 500;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
     transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   #floatingMenu li:hover {
     background: rgba(255, 255, 255, 0.2);
@@ -1804,11 +1810,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Ganti Warna
-  function changeColor() {
-    const colors = ["#3e2723", "#795548", "#d7ccc8", "#f5efe9", "#5eead4", "#1b2431"];
-    document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
-  }
+  // Ganti Warna pakai color picker
+  const colorPicker = document.getElementById("colorPicker");
+  colorPicker.addEventListener("input", (e) => {
+    document.body.style.background = e.target.value;
+  });
 
   // Save Screenshot
   function saveScreenshot() {
@@ -1835,7 +1841,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function unlockApp() {
     let inputPin = document.getElementById("pinInput").value;
     if (inputPin === appPin) lockModal.classList.add("hidden");
-    else alert("salah😑");
+    else alert("PIN salah 😑");
   }
 
   // Feedback
