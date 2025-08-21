@@ -1637,63 +1637,89 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- Floating Reset Button -->
 <button id="resetChat" title="Menu">🧑🏻‍💻</button>
 
+<!-- Floating Menu Button -->
+<button id="resetChat" title="Menu">🧑🏻‍💻</button>
+
 <!-- Floating Menu -->
 <div id="floatingMenu" class="hidden">
   <ul>
     <li onclick="resetChat()">🔄 Reset Chat</li>
     <li onclick="changeColor()">🎨 Ganti Warna</li>
     <li onclick="deleteChat()">🗑 Hapus Chat</li>
+    <li onclick="saveScreenshot()">💾 Save/Share Screenshot</li>
+    <li onclick="openQuickSettings()">⚡️ Quick Settings</li>
+    <li onclick="lockApp()">🔒 Lock App</li>
+    <li onclick="feedback()">💬 Feedback</li>
   </ul>
 </div>
 
+<!-- Quick Settings Modal -->
+<div id="quickSettings" class="modal hidden">
+  <div class="modal-content">
+    <h3>⚡️ Quick Settings</h3>
+    <label>🔆 Brightness</label>
+    <input type="range" min="50" max="150" value="100" id="brightnessSlider"><br>
+    <label>🔊 Volume</label>
+    <input type="range" min="0" max="100" value="50" id="volumeSlider"><br>
+    <button class="closeBtn" onclick="closeQuickSettings()">Tutup</button>
+  </div>
+</div>
+
+<!-- Lock Screen Modal -->
+<div id="lockScreen" class="modal hidden">
+  <div class="modal-content">
+    <h3>🔒 Masukkan PIN</h3>
+    <input type="password" id="pinInput" placeholder="****" maxlength="4">
+    <button class="closeBtn" onclick="unlockApp()">Unlock</button>
+  </div>
+</div>
+
 <style>
+  /* Animasi gradasi button */
   @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
 
+  /* Floating Button */
   #resetChat {
     position: fixed;
     bottom: 95px;
     right: 17px;
-    width: 50px;
-    height: 50px;
-    border-radius: 25%;
+    width: 55px;
+    height: 55px;
+    border-radius: 20px;
     border: none;
     background: linear-gradient(135deg, #3e2723, #f5efe9);
     background-size: 200% 200%;
-    animation: gradientShift 10s ease infinite;
-    color: white;
-    font-size: 19px;
+    animation: gradientShift 12s ease infinite;
+    color: #fff;
+    font-size: 22px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
     z-index: 1000;
   }
-  #resetChat:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
-  }
-  #resetChat:active { transform: scale(0.9); }
+  #resetChat:hover { transform: scale(1.08); }
+  #resetChat:active { transform: scale(0.92); }
 
-  /* Floating Menu Style */
+  /* Floating Menu Glassy Style */
   #floatingMenu {
     position: fixed;
     bottom: 160px;
     right: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border-radius: 18px;
     padding: 12px 0;
     box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    width: 180px;
-    text-align: left;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 220px;
     transform: translateY(20px);
     opacity: 0;
     pointer-events: none;
+    transition: all 0.3s ease;
     z-index: 999;
   }
   #floatingMenu.show {
@@ -1701,31 +1727,78 @@ document.addEventListener('DOMContentLoaded', () => {
     transform: translateY(0);
     pointer-events: auto;
   }
-  #floatingMenu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+  #floatingMenu ul { list-style: none; margin: 0; padding: 0; }
   #floatingMenu li {
-    padding: 10px 15px;
+    padding: 12px 18px;
     cursor: pointer;
     color: #fff;
     font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
     transition: background 0.2s ease;
   }
   #floatingMenu li:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Modal Style (Aqua Glass) */
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+  }
+  .modal.hidden { display: none; }
+  .modal-content {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    width: 270px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    animation: popUp 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  }
+  .modal-content h3 {
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  .modal-content input, 
+  .modal-content input[type=range] {
+    width: 100%;
+    margin: 8px 0 15px;
+  }
+  .closeBtn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3e2723, #f5efe9);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  @keyframes popUp {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } 
+    to { opacity: 1; }
   }
 </style>
 
 <script>
   const btn = document.getElementById("resetChat");
   const menu = document.getElementById("floatingMenu");
+  btn.addEventListener("click", () => menu.classList.toggle("show"));
 
-  btn.addEventListener("click", () => {
-    menu.classList.toggle("show");
-  });
-
+  // Reset Chat
   function resetChat() {
     if (confirm("Yakin mau reset chat?")) {
       localStorage.clear();
@@ -1735,15 +1808,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function changeColor() {
-    alert("Fitur ganti warna coming soon ✨");
-  }
-
+  // Hapus Chat
   function deleteChat() {
     let chatBox = document.getElementById("chatBox");
     if (chatBox) chatBox.innerHTML = "";
   }
+
+  // Ganti Warna
+  function changeColor() {
+    const colors = ["#3e2723", "#795548", "#d7ccc8", "#f5efe9", "#5eead4", "#1b2431"];
+    document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  // Save Screenshot
+  function saveScreenshot() {
+    html2canvas(document.body).then(canvas => {
+      let link = document.createElement("a");
+      link.download = "screenshot.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  }
+
+  // Quick Settings
+  const quickModal = document.getElementById("quickSettings");
+  function openQuickSettings() { quickModal.classList.remove("hidden"); }
+  function closeQuickSettings() { quickModal.classList.add("hidden"); }
+  document.getElementById("brightnessSlider").addEventListener("input", e => {
+    document.body.style.filter = `brightness(${e.target.value}%)`;
+  });
+
+  // Lock App
+  const lockModal = document.getElementById("lockScreen");
+  let appPin = "1234";
+  function lockApp() { lockModal.classList.remove("hidden"); }
+  function unlockApp() {
+    let inputPin = document.getElementById("pinInput").value;
+    if (inputPin === appPin) lockModal.classList.add("hidden");
+    else alert("salah😑");
+  }
+
+  // Feedback
+  function feedback() {
+    window.open("https://ngl.link/username", "_blank");
+  }
 </script>
 
-</body>
-</html>
+<!-- CDN html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
