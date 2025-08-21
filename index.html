@@ -1633,5 +1633,48 @@ document.addEventListener('DOMContentLoaded', () => {
     feather.replace();
 });
     </script>
+
+<!-- Floating Reset Button -->
+<button id="resetChat" title="Reset Chat">🔄</button>
+
+<style>
+  #resetChat {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 999;
+  }
+
+  #resetChat:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+  }
+
+  #resetChat:active {
+    transform: scale(0.9);
+  }
+</style>
+
+<script>
+  document.getElementById("resetChat").addEventListener("click", () => {
+    if (confirm("Yakin mau reset chat? Semua riwayat bakal hilang.")) {
+      localStorage.clear();
+      let chatBox = document.getElementById("chatBox");
+      if (chatBox) chatBox.innerHTML = "";
+      location.reload();
+    }
+  });
+</script>
+
 </body>
 </html>
