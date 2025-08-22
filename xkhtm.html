@@ -805,44 +805,6 @@
         </div>
     </div>
 
-
-
-    <!-- Quick Settings Modal -->
-    <div class="settings-modal hidden" id="settingsModal" onclick="closeSettings(event)">
-        <div class="settings-content" onclick="event.stopPropagation()">
-            <div class="settings-header">
-                <h3 class="settings-title">Quick Settings</h3>
-                <button class="close-button" onclick="closeSettings()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="settings-item">
-                <span class="settings-label">Voice Volume</span>
-                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.7">
-            </div>
-            <div class="settings-item">
-                <span class="settings-label">Voice Speed</span>
-                <input type="range" class="volume-slider" id="speedSlider" min="0.5" max="2" step="0.1" value="1">
-            </div>
-            <div class="settings-item">
-                <span class="settings-label">Auto-scroll</span>
-                <input type="checkbox" class="checkbox" id="autoScrollCheck" checked>
-            </div>
-            <div class="settings-item">
-                <span class="settings-label">Brightness</span>
-                <input type="range" class="volume-slider" id="brightnessSlider" min="0.3" max="1.5" step="0.1" value="1.0">
-            </div>
-            <!-- Action Buttons -->
-            <div class="settings-actions" style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
-                <button type="button" onclick="resetChat(); closeSettings();" style="background: #ef4444; border: none; border-radius: 6px; color: white; padding: 0.5rem 1rem; font-size: 0.875rem; cursor: pointer; flex: 1; min-width: 120px;">🔄 Reset Chat</button>
-                <button type="button" onclick="saveScreenshot(); closeSettings();" style="background: #22c55e; border: none; border-radius: 6px; color: white; padding: 0.5rem 1rem; font-size: 0.875rem; cursor: pointer; flex: 1; min-width: 120px;">💾 Screenshot</button>
-                <button type="button" onclick="showFeedback(); closeSettings();" style="background: #8b5cf6; border: none; border-radius: 6px; color: white; padding: 0.5rem 1rem; font-size: 0.87rem; cursor: pointer; flex: 1; min-width: 120px;">💬 Feedback</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Global variables
         let messages = [];
