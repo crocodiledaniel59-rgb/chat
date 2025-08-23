@@ -1,2 +1,2 @@
-# chat
-chat apa aja sih
+# chat ai by Daniel 
+chat apa aja sih yang oenting chat
