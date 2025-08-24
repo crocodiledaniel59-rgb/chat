@@ -1,6 +1,6 @@
 {
-  "name": "Massager by Daniel",
-  "short_name": "Massager",
+  "name": "Massager",
+  "short_name": "Jalal",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#1a1a2e",
@@ -8,12 +8,12 @@
   "description": "A new version of UI for AI Chat.",
   "icons": [
     {
-      "src": "images/icon-1280x1280.png",
+      "src": "images/icon-2.png",
       "sizes": "1280x1280",
       "type": "image/png"
     },
     {
-      "src": "images/icon-1024x1536.png",
+      "src": "images/icon-1.png",
       "sizes": "1024x1536",
       "type": "image/png"
     }
