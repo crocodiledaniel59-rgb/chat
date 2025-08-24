@@ -1,7 +1,7 @@
 const CACHE_NAME = 'ai-chat-cache-v1';
 const urlsToCache = [
   '/',
-  '/index.html'
+  '/Daniel.html'
 ];
 
 self.addEventListener('install', event => {
