@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Playground - Encrypt & Decrypt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Library untuk enkripsi AES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        :root { --red-400: #f87171; --gray-300: #d1d5db; }
+        body { font-family: 'Segoe UI', sans-serif; }
+        .glowing-output { transition: box-shadow 0.4s ease-in-out; }
+        .glowing-output.show { box-shadow: 0 0 15px 5px rgba(248, 113, 113, 0.3); }
+        .drag-over { border-style: dashed !important; border-color: var(--red-400) !important; }
+        @media (max-width: 768px) { .main-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen p-4">
+
+    <!-- === BAGIAN LOGIN & REGISTER === -->
+    <div id="login-shell" class="w-full max-w-md">
+        <div class="bg-gray-800 border border-gray-700 p-8 rounded-lg shadow-2xl">
+            <h1 class="text-3xl font-bold text-center text-red-400 mb-6">Developer Playground</h1>
+            <form id="loginForm">
+                <input id="login-user" type="text" placeholder="Username" required class="w-full p-3 mb-4 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                <input id="login-pass" type="password" placeholder="Password" required class="w-full p-3 mb-4 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                <button type="submit" class="bg-red-600 text-white py-3 rounded-lg w-full font-bold hover:bg-red-700">Login</button>
+            </form>
+            <p class="text-center text-sm text-gray-400 mt-4">Belum punya akun? <a href="#" id="showRegister" class="text-red-400 hover:underline">Daftar di sini</a></p>
+        </div>
+    </div>
+    
+    <div id="register-shell" class="w-full max-w-md hidden">
+        <div class="bg-gray-800 border border-gray-700 p-8 rounded-lg shadow-2xl">
+            <h1 class="text-3xl font-bold text-center text-red-400 mb-6">Buat Akun Playground</h1>
+            <form id="registerForm">
+                <input id="reg-user" type="text" placeholder="Username Baru" required class="w-full p-3 mb-4 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                <input id="reg-pass" type="password" placeholder="Password Baru" required class="w-full p-3 mb-4 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                <button type="submit" class="bg-red-600 text-white py-3 rounded-lg w-full font-bold hover:bg-red-700">Register</button>
+            </form>
+            <p class="text-center text-sm text-gray-400 mt-4">Sudah punya akun? <a href="#" id="showLogin" class="text-red-400 hover:underline">Login di sini</a></p>
+        </div>
+    </div>
+
+    <!-- === APLIKASI UTAMA (MUNCUL SETELAH LOGIN) === -->
+    <div id="app-shell" class="w-full max-w-6xl hidden">
+        <div class="bg-gray-800 border border-red-500/50 p-6 md:p-8 rounded-lg shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-red-400">Crypto Playground</h1>
+                    <p class="text-sm text-gray-400">Logged in as: <span id="loggedInUser" class="font-bold"></span></p>
+                </div>
+                <button id="logoutBtn" class="bg-gray-700 hover:bg-gray-600 text-white text-sm py-2 px-4 rounded-lg">Logout</button>
+            </div>
+
+            <!-- KONTROL UTAMA -->
+            <div class="flex flex-wrap items-center gap-4 mb-4 bg-gray-900 p-4 rounded-lg">
+                <div class="flex items-center gap-2">
+                    <span class="font-medium text-gray-300">Mode:</span>
+                    <div class="flex bg-gray-700 rounded-full p-1">
+                        <button id="encrypt-mode-btn" class="px-4 py-1 text-sm font-semibold rounded-full bg-red-500 text-white">Encrypt</button>
+                        <button id="decrypt-mode-btn" class="px-4 py-1 text-sm font-semibold rounded-full text-gray-300">Decrypt</button>
+                    </div>
+                </div>
+                <div class="flex-grow flex items-center gap-2">
+                    <label for="algorithm-select" class="font-medium text-gray-300">Algoritma:</label>
+                    <select id="algorithm-select" class="bg-gray-700 border border-gray-600 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <option value="base64">Base64</option>
+                        <option value="aes">AES (Advanced Encryption Standard)</option>
+                        <option value="rot13">ROT13 (Caesar Cipher)</option>
+                    </select>
+                </div>
+                <div id="secret-key-wrapper" class="flex-grow hidden">
+                    <input type="password" id="secret-key-input" placeholder="Your Secret Key (diingat otomatis)" class="w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+            </div>
+
+            <!-- AREA INPUT & OUTPUT -->
+            <div class="grid md:grid-cols-2 gap-4 main-grid">
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-300 mb-2">Input</h2>
+                    <textarea id="input-area" placeholder="Paste kode Anda di sini atau drag & drop file..." class="w-full h-64 p-3 bg-gray-900 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition resize-none"></textarea>
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-300 mb-2">Output</h2>
+                    <textarea id="output-area" readonly placeholder="Hasil akan muncul di sini..." class="w-full h-64 p-3 bg-black border border-gray-700 rounded-lg focus:outline-none resize-none glowing-output"></textarea>
+                </div>
+            </div>
+
+            <!-- TOMBOL AKSI -->
+            <div class="flex gap-4 mt-4">
+                <button id="copy-btn" class="bg-blue-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-blue-700 flex-1">Copy Hasil</button>
+                <button id="download-btn" class="bg-green-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-green-700 flex-1">Download Output (.txt)</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
