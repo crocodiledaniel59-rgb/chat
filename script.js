@@ -69,18 +69,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         handleRegister: function(e) {
-            e.preventDefault();
-            const user = this.elements.registerForm.querySelector('#reg-user').value.trim();
-            const pass = this.elements.registerForm.querySelector('#reg-pass').value;
-            if (user.length < 3) return alert('Username minimal 3 karakter.');
-            if (pass.length < 4) return alert('Password minimal 4 karakter.');
-            if (this.state.users[user]) return alert('Username sudah digunakan!');
-            
-            this.state.users[user] = { password: pass, secretKey: '' };
-            this.saveUsers();
-            alert('Registrasi berhasil! Silakan login.');
-            this.showLogin();
-        },
+    e.preventDefault();
+    const user = document.getElementById('reg-user').value.trim();
+    const pass = document.getElementById('reg-pass').value;
+    
+    if (user.length < 3) return alert('Username minimal 3 karakter.');
+    if (pass.length < 4) return alert('Password minimal 4 karakter.');
+    if (this.state.users[user]) return alert('Username sudah digunakan!');
+    
+    this.state.users[user] = { password: pass, secretKey: '' };
+    this.saveUsers();
+    alert('Registrasi berhasil! Silakan login.');
+    this.showLogin();
+},
         handleLogout: function() {
             this.state.currentUser = null;
             localStorage.removeItem('playground_session');
