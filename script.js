@@ -1,4 +1,3 @@
-javascript
 document.addEventListener('DOMContentLoaded', () => {
     // --- Bagian Utama Aplikasi ---
     const app = {
